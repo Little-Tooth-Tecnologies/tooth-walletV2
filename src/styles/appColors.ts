@@ -1,4 +1,4 @@
-export const colors = StyleSheet.create({
+export const colors = {
     black: { color: "#2B2B2B" },
     semi_black: { color: "#282828" },
     white: { color: "#FFFFFFFF" },
@@ -9,4 +9,4 @@ export const colors = StyleSheet.create({
     mint_green_dark: { color: "#29A276" },
     yellow: { color: "#FFD52D" },
     red: { color: "#D33737" },
-})
+}
