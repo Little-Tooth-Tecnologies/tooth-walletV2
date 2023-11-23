@@ -1,5 +1,6 @@
 export const colors = {
     black: { color: "#2B2B2B" },
+    bold: {fontWeight: "bold"},
     semi_black: { color: "#282828" },
     white: { color: "#FFFFFFFF" },
     semi_white: { color: "#D8D8D8" },
@@ -7,6 +8,6 @@ export const colors = {
     mint_green_primary: { color: "#A1E3AF" },
     mint_green_secondary: { color: "#65C393" },
     mint_green_dark: { color: "#29A276" },
-    yellow: { color: "#FFD52D" },
+    yellow: { color: "#FFD52D"},
     red: { color: "#D33737" },
 }
