@@ -14,7 +14,7 @@ const AppRoutes = () => {
 
     return (
         <stack.Navigator
-            initialRouteName="Start"
+            initialRouteName="Splash"
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: true,

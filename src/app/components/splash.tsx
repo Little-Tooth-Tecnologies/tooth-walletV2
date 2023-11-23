@@ -38,7 +38,7 @@ export default function Splash(props: any) {
     <LinearGradient colors={["#A1E3AF", "#FFFFFFFF"]} style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.imageView}>
-        <Image style={{ width: 170, height: 170 }} source={require('../../../assets/png/logo_empresa_circle.png')} />
+        <Image style={{ width: 170, height: 170 }} source={require('../../../assets/favicon.png')} />
         <Text style={styles.textStyle}>Tooth Wallet</Text>        
       </View>
       <View style={styles.textView}>

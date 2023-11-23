@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "toothWalletV2",
-    "slug": "toothWalletV2",
+    "slug": "tooth-wallet-v2",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/favicon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -19,12 +19,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/favicon.png",
+        "backgroundColor": "#65C393"
+      },
+      "package": "com.thalys93.toothwalletv2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fdba1c99-77d7-4b7f-a5bb-31a1a0ca2836"
+      }
+    },
+    "owner": "thalys93"
   }
 }
