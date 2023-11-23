@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Styles } from '../../styles/Styles'
+import { Styles } from '../../../styles/Styles'
 
 export default function Home() {
   return (

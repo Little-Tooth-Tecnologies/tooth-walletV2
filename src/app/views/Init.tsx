@@ -27,19 +27,19 @@ export default function Init({ navigation }) {
         <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
           <LinearGradient colors={["#A1E3AF", "#65C393", "#29A276"]} style={Styles.cellphoneDialog}>
             <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-              <Image style={{ width: 230, height: 260, marginTop: 10 }} source={require('../../../assets/png/begin_box_phone.png')} />
+              <Image style={{ height: 250, resizeMode: 'stretch',  marginTop: 10 }} source={require('../../../assets/png/begin_box_phone.png')} />
             </View>
             <View style={{ width: 300, marginLeft: 10 }}>
               <Text style={[colors.white, styles.bigTXT]}>Finanças {"\n"}Pessoais Tão {"\n"}Simples {"\n"}Quanto um</Text>
-              <Text style={{ color: "#F7DC6F", fontWeight: "bold", fontSize: 30 }}>Sorriso</Text>
+              <Text style={{ color: "#F7DC6F", fontWeight: "bold", fontSize: 24 }}>Sorriso</Text>
               <Text style={colors.text_semi_white}>confiável, projetado para tornar o gerenciamento de finanças pessoais tão simples quanto um sorriso.</Text>
             </View>
             <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-              <TouchableOpacity style={styles.beginButton} onPress={() => navigation.navigate('NewAccount')}>
+              <TouchableOpacity style={styles.beginButton} onPress={() => navigation.navigate('NewAccount-1')}>
                 <Text style={styles.buttonText}>Começar</Text>
               </TouchableOpacity>
             </View>
-            <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center", marginTop: 30 }}
+            <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center", marginTop: 10 }}
             >
               <Text style={{ color: "#D5D5D5" }}>Já Tenho uma Conta</Text>
               <AntDesign name="down" size={24} color="#696788" />
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#B9FFCA',
   },
   bigTXT: {
-    fontSize: 30,
+    fontSize: 24,
   },
   buttonText: {
     fontSize: 20,

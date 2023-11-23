@@ -1,24 +1,17 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, PanResponder } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Styles } from '../../styles/Styles'
-import { colors } from '../../styles/appColors'
+import { Styles } from '../../../styles/Styles'
 import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { TextInput } from 'react-native-paper';
+import { FontAwesome } from '@expo/vector-icons';
 
 interface InitProps {
   navigation: any;
 }
 
 
-export default function Init({ navigation }) {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-
+export default function Name({ navigation }) {    
   return (
 
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={styles.container}>
@@ -29,34 +22,30 @@ export default function Init({ navigation }) {
               <AntDesign name="leftcircle" size={30} color="white" />
             </TouchableOpacity>
           </View>
-          <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-            <Text style={styles.bigTXT}> Tooth Wallet </Text>
-            <View style={styles.underline}></View>
-            <Text style={styles.subTitleTXT}> Tela de Login </Text>
+          <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+            <Image style={{ width: 200, height: 260 }} source={require('../../../../assets/png/begin_box_phone.png')} />
+          </View>
+          <View style={{ justifyContent: 'center', display: 'flex', width: 200, alignItems: "center" }}>
+            <Text style={styles.bigTXT}>Vamos começar </Text>
+            <Text style={styles.subTitleTXT}>Qual é Seu <Text style={styles.underline}>Nome?</Text> </Text>
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
             <TextInput
-              label="Email"
+              label="Nome"
               mode="outlined"
-              left={<TextInput.Icon icon="email" />}
-              style={{ width: 250, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
-            />
-            <TextInput
-              label="Senha"
-              mode="outlined"
-              secureTextEntry={!showPassword}
-              left={<TextInput.Icon icon="lock" />}
-              right={<TextInput.Icon icon={showPassword ? "eye-off" : "eye"} onPress={togglePasswordVisibility} />}
-              style={{ width: 250, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
+              left={<TextInput.Icon icon="account-outline" />}
+              style={{ width: 220, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
             />
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-            <TouchableOpacity style={styles.beginButton}>
-              <Text style={styles.buttonText}>Login</Text>
+            <TouchableOpacity style={styles.beginButton} onPress={() => navigation.navigate('NewAccount-2')}>
+              <Text style={styles.buttonText}>Continuar <AntDesign name="arrowright" size={15} color="black" /></Text>
             </TouchableOpacity>
           </View>
-          <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-            <Image style={{ width: 290, height: 260, marginTop: 40 }} source={require('../../../assets/png/login_icon.png')} />
+          <View style={{display: 'flex', flexDirection: 'row', gap: 30 , justifyContent: 'center', marginTop: 30, alignContent: 'center'}}>
+            <FontAwesome name="circle" size={20} color="#A1E3AF" />
+            <FontAwesome name="circle-o" size={20} color="#A1E3AF" />
+            <FontAwesome name="circle-o" size={20} color="#A1E3AF" />
           </View>
         </LinearGradient>
       </View>
@@ -72,27 +61,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#B9FFCA',
   },
   bigTXT: {
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: '400',
     fontVariant: ['small-caps'],
     color: "#fff",
   },
   subTitleTXT: {
-    fontSize: 25,
+    fontSize: 20,
     marginTop: 10,
     fontWeight: '400',
     fontVariant: ['small-caps'],
-    color: "#fff",
+    color: "#F7DC6F",
   },
   underline: {
-    backgroundColor: '#fff',
-    height: 2,
-    width: '80%',
-    marginTop: 1,
-  },
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',    
+  },  
   buttonText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
+    fontVariant: ['small-caps'],
   },
   beginButton: {
     backgroundColor: "#FFD52D",
