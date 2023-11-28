@@ -5,15 +5,25 @@ import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { TextInput } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
+import { Formik } from 'formik';
+import { Register } from '../../../utils/firebase/register';
 
 interface InitProps {
   navigation: any;
 }
 
 
-export default function Name({ navigation }) {    
-  return (
+export default function Name({ navigation }) {
 
+  const {
+    Formik,
+    initialValues,
+    formValidation,        
+    nextStepName,
+  } = Register({ navigation })
+
+
+  return (
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={styles.container}>
       <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
         <LinearGradient colors={["#A1E3AF", "#65C393", "#29A276"]} style={Styles.cellphoneDialog}>
@@ -30,26 +40,39 @@ export default function Name({ navigation }) {
             <Text style={styles.subTitleTXT}>Qual é Seu <Text style={styles.underline}>Nome?</Text> </Text>
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-            <TextInput
-              label="Nome"
-              mode="outlined"
-              left={<TextInput.Icon icon="account-outline" />}
-              style={{ width: 220, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
-            />
+            <Formik
+              initialValues={initialValues}
+              validationSchema={formValidation}
+              onSubmit={(values) => {nextStepName(values as never);}}
+            >
+              {({ handleChange, values }) => (
+                <>
+                  <TextInput
+                    label="Nome"
+                    mode="outlined"
+                    onChangeText={handleChange('name')}
+                    value={values.name}
+                    left={<TextInput.Icon icon="account-outline" />}
+                    style={{ width: 220, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
+                  />
+                  <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
+                    <TouchableOpacity style={styles.beginButton} onPress={() => {nextStepName(values as never);}}>
+                      <Text style={styles.buttonText}>Continuar<AntDesign name="arrowright" size={15} color="black" /></Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+            </Formik>
           </View>
-          <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-            <TouchableOpacity style={styles.beginButton} onPress={() => navigation.navigate('NewAccount-2')}>
-              <Text style={styles.buttonText}>Continuar <AntDesign name="arrowright" size={15} color="black" /></Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{display: 'flex', flexDirection: 'row', gap: 30 , justifyContent: 'center', marginTop: 30, alignContent: 'center'}}>
+
+          <View style={{ display: 'flex', flexDirection: 'row', gap: 30, justifyContent: 'center', marginTop: 30, alignContent: 'center' }}>
             <FontAwesome name="circle" size={20} color="#A1E3AF" />
             <FontAwesome name="circle-o" size={20} color="#A1E3AF" />
             <FontAwesome name="circle-o" size={20} color="#A1E3AF" />
           </View>
         </LinearGradient>
-      </View>
-    </LinearGradient>
+      </View >
+    </LinearGradient >
   )
 }
 
@@ -75,8 +98,8 @@ const styles = StyleSheet.create({
   },
   underline: {
     textDecorationLine: 'underline',
-    fontWeight: 'bold',    
-  },  
+    fontWeight: 'bold',
+  },
   buttonText: {
     fontSize: 15,
     fontWeight: "bold",

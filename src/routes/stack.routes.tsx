@@ -21,6 +21,7 @@ const AppRoutes = () => {
             }}
         >
 
+            {/* Telas Iniciais */}
             <stack.Screen
                 name="Splash"
                 component={Splash}
@@ -31,11 +32,13 @@ const AppRoutes = () => {
                 component={Init}
             />
 
+            {/* Login */}
             <stack.Screen
                 name="Login"
                 component={Login}
             />
 
+            {/* Cadastro */}
             <stack.Screen
                 name="NewAccount-1"
                 component={Name}

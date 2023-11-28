@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "toothWalletV2",
+    "name": "toothWallet",
     "slug": "tooth-wallet-v2",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/favicon.png",
         "backgroundColor": "#65C393"
       },
-      "package": "com.thalys93.toothwalletv2"
+      "package": "com.tooth.wallet"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -5,14 +5,27 @@ import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { TextInput } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
+import { Formik } from 'formik';
+import { Register } from '../../../utils/firebase/register';
 
 interface InitProps {
   navigation: any;
 }
 
 
-export default function Password({ navigation }) {    
-  const user = 'Usuário'
+export default function Password({ navigation }) {
+  
+
+  const {
+    Formik,
+    initialValues,
+    formikValues,
+    formValidation,    
+    nextStepPassword,
+  } = Register({ navigation })
+  
+
+
   return (
 
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={styles.container}>
@@ -24,26 +37,39 @@ export default function Password({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-            <Image style={{ height: 200,  resizeMode: 'stretch', marginBottom: 20}} source={require('../../../../assets/png/security_pass.png')} />
+            <Image style={{ height: 200, resizeMode: 'stretch', marginBottom: 20 }} source={require('../../../../assets/png/security_pass.png')} />
           </View>
-          <View style={{ display: 'flex', flexDirection: "column" ,justifyContent: 'center', width: 200, alignItems: "flex-start", marginLeft: 32}}>
-            <Text style={styles.bigTXT}>{user}{"\n"}Certo ?</Text>
+          <View style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', width: 200, alignItems: "flex-start", marginLeft: 32 }}>
+            <Text style={styles.bigTXT}>{initialValues.name}{"\n"}Certo ?</Text>
             <Text style={styles.subTitleTXT}>Crie uma {"\n"}<Text style={styles.underline}>Senha</Text> Para{"\n"}Sua Conta </Text>
           </View>
-          <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-            <TextInput
-              label="Senha"
-              mode="outlined"
-              left={<TextInput.Icon icon="lock" />}
-              style={{ width: 220, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
-            />
+          <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>            
+            <Formik
+            initialValues={formikValues}
+            validationSchema={formValidation}
+            onSubmit={(values) => {nextStepPassword(values as never);}}
+            >
+              {({handleChange, values}) => (
+              <>
+              <TextInput
+                label="Senha"
+                mode="outlined"
+                onChangeText={handleChange('password')}
+                value={values.password}
+                left={<TextInput.Icon icon="lock" />}
+                style={{ width: 220, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
+              />
+              <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
+                <TouchableOpacity style={styles.beginButton} onPress={() => {nextStepPassword(values as never);}}>
+                  <Text style={styles.buttonText}>Continuar <AntDesign name="arrowright" size={15} color="black" /></Text>
+                </TouchableOpacity>
+              </View>
+            </>
+            )}
+            </Formik>
           </View>
-          <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-            <TouchableOpacity style={styles.beginButton} onPress={() => navigation.navigate('NewAccount-3')}>
-              <Text style={styles.buttonText}>Continuar <AntDesign name="arrowright" size={15} color="black" /></Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{display: 'flex', flexDirection: 'row', gap: 30 , justifyContent: 'center', marginTop: 30, alignContent: 'center'}}>
+
+          <View style={{ display: 'flex', flexDirection: 'row', gap: 30, justifyContent: 'center', marginTop: 30, alignContent: 'center' }}>
             <FontAwesome name="circle-o" size={20} color="#A1E3AF" />
             <FontAwesome name="circle" size={20} color="#A1E3AF" />
             <FontAwesome name="circle-o" size={20} color="#A1E3AF" />
@@ -62,22 +88,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#B9FFCA',
   },
   bigTXT: {
-    fontSize: 24,    
+    fontSize: 24,
     fontWeight: '400',
     fontVariant: ['small-caps'],
     color: "#fff",
   },
   subTitleTXT: {
     fontSize: 20,
-    marginTop: 10,    
+    marginTop: 10,
     fontWeight: '400',
     fontVariant: ['small-caps'],
     color: "#F7DC6F",
   },
   underline: {
     textDecorationLine: 'underline',
-    fontWeight: 'bold',    
-  },  
+    fontWeight: 'bold',
+  },
   buttonText: {
     fontSize: 15,
     fontWeight: "bold",
