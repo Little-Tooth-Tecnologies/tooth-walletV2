@@ -1,6 +1,6 @@
 import * as formik from 'formik'
 import * as yup from 'yup'
-import { Fauth, FireStoreDatabase } from './firebase'
+import { auth, FireStoreDatabase } from './firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { newUserModel } from '../../interfaces/Users'
 import { useDispatch } from 'react-redux'
@@ -9,15 +9,17 @@ import { RootState } from '../redux/store'
 import { setStates } from '../redux/appSlice'
 import { doc, setDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface RegisterProps {
     navigation: any
 }
 
 export function Register({ navigation }) {
-    const { Formik } = formik;
     const dispatch = useDispatch();
     const commonStates = useSelector((state: RootState) => state.commonState);
+
+    const { Formik } = formik;
 
     const initialValues: newUserModel = {
         UUID: '',
@@ -39,44 +41,54 @@ export function Register({ navigation }) {
 
 
     const [formikValues, setFormikValues] = useState(initialValues);
-
-    const updateFormikState = (fieldName: string, value: string) => {
-        setFormikValues(prevValues => ({
-            ...prevValues,
-            [fieldName]: value
-        }));
-    };
-
-
     const nextStepName = async (userData: newUserModel) => {
-        await updateFormikState('name', userData.name);
-        const updatedFormikValues = { ...formikValues, name: userData.name };
-        navigation.navigate('NewAccount-2', updatedFormikValues);
+        const newName = userData.name;
+        await AsyncStorage.setItem('temp_name', newName);
+        // console.log('nome salvo: ', newName);
+        navigation.navigate('NewAccount-2');
     }
 
     const nextStepPassword = async (userData: newUserModel) => {
-        try {
-            await updateFormikState('password', userData.password);
-            const updatedFormikValues = { ...formikValues, password: userData.password };
-            console.log(updatedFormikValues)
-        } catch (error) {
-            console.error(error)
-        }
-        // navigation.navigate('NewAccount-3', initialValues);
+        const newPassword = userData.password;
+        await AsyncStorage.setItem('temp_password', newPassword);
+        // console.log('senha salva: ', newPassword);
+        navigation.navigate('NewAccount-3');
     }
 
-    const nextStepEmail = async (userData: newUserModel) => {
-        // navigation.navigate('NewAccount-4', initialValues);
-    }
+    useEffect(() => {
+        const getData = async () => {
+            const StoredName = await AsyncStorage.getItem('temp_name');
+            const StoredEmail = await AsyncStorage.getItem('temp_email');
+            const StoredPassword = await AsyncStorage.getItem('temp_password');
+
+            setFormikValues({
+                ...initialValues,
+                name: StoredName,
+                email: StoredEmail,
+                password: StoredPassword
+            });
+        }
+        getData();
+    }, [])
 
     const onSubmit = async (userData: newUserModel) => {
+
+        const newEmail = userData.email;        
+        await AsyncStorage.setItem('temp_email', newEmail);
+        const StoredPassword = await AsyncStorage.getItem('temp_password');
+        // console.log(formikValues.email, StoredPassword);
+
         try {
             dispatch(setStates({
                 show: true,
                 infoMSG: 'Cadastrando usuário...'
             }));
 
-            const { user } = await createUserWithEmailAndPassword(Fauth, userData.email, userData.password);
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            navigation.navigate('NewAccount-4');
+
+            const { user } = await createUserWithEmailAndPassword(auth, formikValues.email, StoredPassword);
 
             await new Promise(resolve => setTimeout(resolve, 1500));
 
@@ -94,19 +106,23 @@ export function Register({ navigation }) {
 
             await setDoc(doc(FireStoreDatabase, `users/${user.uid}`), remaingData);
 
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            await AsyncStorage.removeItem('temp_name');
+            await AsyncStorage.removeItem('temp_email');
+            await AsyncStorage.removeItem('temp_password');
+
             dispatch(setStates({
-                message: 'Redirecionando para o login...'
+                show: true,
+                infoMSG: 'Redirecionando para o login...'
             }));
 
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            navigation.navigate('Login');
 
             dispatch(setStates({
                 show: false
             }));
-
-            await new Promise(resolve => setTimeout(resolve, 1500));
-
-            navigation.navigate = ('Login');
 
 
         } catch (error) {
@@ -115,16 +131,17 @@ export function Register({ navigation }) {
     }
 
     return {
-        Formik,
-        formikValues,
-        initialValues,
-        formValidation,
-        onSubmit,
         show: commonStates.show,
         infoMSG: commonStates.infoMSG,
+        Formik,
+        initialValues,
+        formValidation,
+        formikValues,
+        setFormikValues,
+        onSubmit,
         nextStepName,
         nextStepPassword,
-        nextStepEmail,
+        // nextStepEmail,
     }
 
 }

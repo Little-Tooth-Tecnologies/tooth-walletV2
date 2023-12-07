@@ -5,7 +5,6 @@ import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { TextInput } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
-import { Formik } from 'formik';
 import { Register } from '../../../utils/firebase/register';
 
 interface InitProps {

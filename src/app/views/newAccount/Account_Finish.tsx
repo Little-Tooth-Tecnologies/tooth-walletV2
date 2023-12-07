@@ -1,19 +1,22 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, PanResponder } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Styles } from '../../../styles/Styles'
-import { AntDesign } from '@expo/vector-icons';
-import React, { useState } from 'react'
-import { ActivityIndicator, TextInput } from 'react-native-paper';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { useEffect } from 'react'
+import { ActivityIndicator, Snackbar, TextInput } from 'react-native-paper';
+import { Register } from '../../../utils/firebase/register';
 
 interface InitProps {
   navigation: any;
 }
 
 
-export default function Finish({ navigation }) {
+export default function Finish({ navigation }) {  
+  
+  const {show, infoMSG} = Register({ navigation })
+
   return (
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={styles.container}>
+        <Snackbar visible={show} onDismiss={() => show}>{infoMSG}</Snackbar>
       <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
         <LinearGradient colors={["#A1E3AF", "#65C393", "#29A276"]} style={Styles.cellphoneDialog}>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
@@ -22,11 +25,11 @@ export default function Finish({ navigation }) {
           </View>
           <View style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', width: 200, alignItems: "flex-start", marginLeft: 32 }}>
             <Text style={styles.bigTXT}>Cadastro Realizado Com{"\n"}<Text style={{ color: "#F7DC6F", fontWeight: '700' }}>SUCESSO</Text></Text>
-            <Text style={styles.subTitleTXT}>Estamos Redirecionando Você para página principal</Text>
+            <Text style={styles.subTitleTXT}>Estamos Redirecionando Você para página principal</Text>            
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
             <Text style={styles.toothWallet}> Bem Vindo ao {"\n"} Tooth Wallet </Text>
-            <ActivityIndicator animating={true} color='#D9D9D9' size={50} style={{marginTop: 30}}/>
+            <ActivityIndicator animating={true} color='#D9D9D9' size={50} style={{ marginTop: 30 }} />
           </View>
         </LinearGradient>
       </View>
@@ -47,12 +50,12 @@ const styles = StyleSheet.create({
     fontVariant: ['small-caps'],
     color: "#fff",
   },
-  toothWallet: {  
-      fontSize: 13,
-      marginTop: 30,
-      fontWeight: '600',
-      fontVariant: ['small-caps'],
-      color: "#FFD52D",    
+  toothWallet: {
+    fontSize: 13,
+    marginTop: 30,
+    fontWeight: '600',
+    fontVariant: ['small-caps'],
+    color: "#FFD52D",
   },
   subTitleTXT: {
     fontSize: 15,

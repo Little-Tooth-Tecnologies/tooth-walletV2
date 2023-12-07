@@ -7,6 +7,7 @@ import Name from '../app/views/newAccount/Account_Name';
 import Password from '../app/views/newAccount/Account_Password';
 import Birth from '../app/views/newAccount/Account_Email';
 import Finish from '../app/views/newAccount/Account_Finish';
+import Home from '../app/views/home/Home';
 
 const stack = createNativeStackNavigator();
 
@@ -57,6 +58,12 @@ const AppRoutes = () => {
             <stack.Screen
                 name="NewAccount-4"
                 component={Finish}
+            />
+
+            {/* Home */}
+            <stack.Screen
+                name="Home"
+                component={Home}
             />
 
         </stack.Navigator>

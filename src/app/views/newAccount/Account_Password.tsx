@@ -5,7 +5,6 @@ import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { TextInput } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
-import { Formik } from 'formik';
 import { Register } from '../../../utils/firebase/register';
 
 interface InitProps {
@@ -17,8 +16,7 @@ export default function Password({ navigation }) {
   
 
   const {
-    Formik,
-    initialValues,
+    Formik,    
     formikValues,
     formValidation,    
     nextStepPassword,
@@ -40,7 +38,7 @@ export default function Password({ navigation }) {
             <Image style={{ height: 200, resizeMode: 'stretch', marginBottom: 20 }} source={require('../../../../assets/png/security_pass.png')} />
           </View>
           <View style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', width: 200, alignItems: "flex-start", marginLeft: 32 }}>
-            <Text style={styles.bigTXT}>{initialValues.name}{"\n"}Certo ?</Text>
+            <Text style={styles.bigTXT}>{formikValues.name}{"\n"}Certo ?</Text>
             <Text style={styles.subTitleTXT}>Crie uma {"\n"}<Text style={styles.underline}>Senha</Text> Para{"\n"}Sua Conta </Text>
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>            
@@ -54,6 +52,7 @@ export default function Password({ navigation }) {
               <TextInput
                 label="Senha"
                 mode="outlined"
+                secureTextEntry={true}
                 onChangeText={handleChange('password')}
                 value={values.password}
                 left={<TextInput.Icon icon="lock" />}

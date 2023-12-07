@@ -2,8 +2,13 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, PanResponder } from 'r
 import { LinearGradient } from 'expo-linear-gradient'
 import { Styles } from '../../../styles/Styles'
 import { AntDesign } from '@expo/vector-icons';
-import React, { useState } from 'react'
-import { TextInput } from 'react-native-paper';
+import React, { useContext, useEffect, useState } from 'react'
+import { Snackbar, TextInput } from 'react-native-paper';
+import { AuthContext } from '../../../utils/firebase/AuthContext';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../utils/redux/store';
+import { setStates } from '../../../utils/redux/appSlice';
 
 interface InitProps {
   navigation: any;
@@ -12,15 +17,51 @@ interface InitProps {
 
 export default function Login({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
+  const authContext = useContext(AuthContext)
+  const dispatch = useDispatch();
+  const commonStates = useSelector((state: RootState) => state.commonState);
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  useEffect(() => {
+    const checkAuthentication = () => {
+      if (!authContext && !authContext.user) {
+        dispatch(setStates({
+          show: true,
+          infoMSG: "Verificando Autenticação",
+        }))
+        new Promise(resolve => setTimeout(resolve, 5000));
+        dispatch(setStates({
+          show: true,
+          infoMSG: "Usuário Não Autenticado",
+        }))
+        new Promise(resolve => setTimeout(resolve, 1500));
+        dispatch(setStates({
+          show: false,
+          infoMSG: "",
+        }))
+      } else {
+        
+        dispatch(setStates({
+          show: true,
+          infoMSG: "Usuário Autenticado, Redirecionando...",
+        }))
+        
+        setTimeout(() => {
+          navigation.navigate('Home')
+        }, 2000)
+      }
+    }
+    checkAuthentication();
+  }, [authContext])
+
 
   return (
-
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={styles.container}>
+      <Snackbar visible={commonStates.show} onDismiss={() => commonStates.show}>{commonStates.infoMSG}</Snackbar>
       <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
         <LinearGradient colors={["#A1E3AF", "#65C393", "#29A276"]} style={Styles.cellphoneDialog}>
           <View>
