@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../utils/redux/store';
 import { setStates } from '../../../utils/redux/appSlice';
+import { LoginUtils } from '../../../utils/firebase/login';
 
 interface InitProps {
   navigation: any;
@@ -21,43 +22,69 @@ export default function Login({ navigation }) {
   const dispatch = useDispatch();
   const commonStates = useSelector((state: RootState) => state.commonState);
 
+  const {
+    Formik,
+    formValidation,
+    formikValues,
+    setFormikValues,
+    onSubmit } = LoginUtils({ navigation })
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   useEffect(() => {
-    const checkAuthentication = () => {
-      if (!authContext && !authContext.user) {
+    const checkAuthentication = async () => {
+      try {
+        if (!authContext || !authContext.user) {
+          dispatch(setStates({
+            show: true,
+            infoMSG: "Verificando Autenticação",
+          }))
+
+          setTimeout(() => {
+            dispatch(setStates({
+              show: true,
+              infoMSG: "Usuário Não Autenticado"
+            }))
+          }, 2000)
+
+          setTimeout(() => {
+            dispatch(setStates({
+              show: false,
+              infoMSG: ""
+            }))
+          }, 4000)
+        } else {
+          dispatch(setStates({
+            show: true,
+            infoMSG: "Verificando Autenticação",
+          }))
+          setTimeout(() => {
+            dispatch(setStates({
+              show: true,
+              infoMSG: "Usuário Autenticado"
+            }))
+          }, 2000)
+          setTimeout(() => {
+            navigation.navigate('Home')
+          }, 4000)
+        }
+      } catch (error) {
         dispatch(setStates({
           show: true,
-          infoMSG: "Verificando Autenticação",
+          infoMSG: "Falha na Verificação de Autenticação"
         }))
-        new Promise(resolve => setTimeout(resolve, 5000));
-        dispatch(setStates({
-          show: true,
-          infoMSG: "Usuário Não Autenticado",
-        }))
-        new Promise(resolve => setTimeout(resolve, 1500));
-        dispatch(setStates({
-          show: false,
-          infoMSG: "",
-        }))
-      } else {
-        
-        dispatch(setStates({
-          show: true,
-          infoMSG: "Usuário Autenticado, Redirecionando...",
-        }))
-        
         setTimeout(() => {
-          navigation.navigate('Home')
-        }, 2000)
+          dispatch(setStates({
+            show: false,
+            infoMSG: ""
+          }))
+        }, 4000)
       }
     }
     checkAuthentication();
-  }, [authContext])
-
+  }, [])
 
   return (
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={styles.container}>
@@ -75,25 +102,52 @@ export default function Login({ navigation }) {
             <Text style={styles.subTitleTXT}> Tela de Login </Text>
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-            <TextInput
-              label="Email"
-              mode="outlined"
-              left={<TextInput.Icon icon="email" />}
-              style={{ width: 250, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
-            />
-            <TextInput
-              label="Senha"
-              mode="outlined"
-              secureTextEntry={!showPassword}
-              left={<TextInput.Icon icon="lock" />}
-              right={<TextInput.Icon icon={showPassword ? "eye-off" : "eye"} onPress={togglePasswordVisibility} />}
-              style={{ width: 250, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
-            />
-          </View>
-          <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
-            <TouchableOpacity style={styles.beginButton}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
+            <Formik
+              initialValues={formikValues}
+              validationSchema={formValidation}
+              onSubmit={() => { onSubmit(formikValues as never); }}
+            >
+              {({ handleChange, values, errors }) => (
+                <>
+                  <TextInput
+                    label="Email"
+                    mode="outlined"
+                    onChangeText={(text) => {
+                      handleChange('email')(text);
+                      setFormikValues({
+                        ...formikValues,
+                        email: text,
+                      });
+                    }
+                    }
+                    value={values.email}
+                    left={<TextInput.Icon icon="email" />}
+                    style={{ width: 250, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
+                  />
+                  <TextInput
+                    label="Senha"
+                    mode="outlined"
+                    onChangeText={(text) => {
+                      handleChange('password')(text);
+                      setFormikValues({
+                        ...formikValues,
+                        password: text,
+                      });
+                    }}
+                    value={values.password}
+                    secureTextEntry={!showPassword}
+                    left={<TextInput.Icon icon="lock" />}
+                    right={<TextInput.Icon icon={showPassword ? "eye-off" : "eye"} onPress={togglePasswordVisibility} />}
+                    style={{ width: 250, marginTop: 10, backgroundColor: "rgba(255, 255, 255, 0.72);" }}
+                  />
+                  <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
+                    <TouchableOpacity style={styles.beginButton} onPress={() => { onSubmit(values) }}>
+                      <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+            </Formik>
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
             <Image style={{ width: 290, height: 260, marginTop: 40 }} source={require('../../../../assets/png/login_icon.png')} />

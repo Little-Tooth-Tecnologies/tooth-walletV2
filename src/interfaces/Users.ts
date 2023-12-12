@@ -6,3 +6,8 @@ export interface newUserModel {
     password: string;        
     imageLink: string,        
 }
+
+export interface UserModel {
+    email: string;
+    password: string;
+}

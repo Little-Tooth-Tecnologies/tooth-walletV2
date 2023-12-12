@@ -11,10 +11,6 @@ import { doc, setDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-interface RegisterProps {
-    navigation: any
-}
-
 export function Register({ navigation }) {
     const dispatch = useDispatch();
     const commonStates = useSelector((state: RootState) => state.commonState);

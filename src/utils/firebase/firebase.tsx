@@ -13,7 +13,7 @@ const firebaseConfig = {
     apiKey: 'AIzaSyDK-ugx13SWCT8_b6dN_qYETmAYsM0yVY4',
     authDomain: 'toothwallet-45402.firebaseapp.com',
     projectId: 'toothwallet-45402',
-    storageBucket: 'toothwallet-45402.appspot.com',
+    storageBucket: 'toothwallet-45402.appspot.com', 
     messagingSenderId: '310378678089',
     appId: '1:310378678089:web:57e2dfd24bece26a2afc98',
     measurementId: 'G-07PJCEWZNK',

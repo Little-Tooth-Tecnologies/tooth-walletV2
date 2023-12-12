@@ -8,6 +8,9 @@ import Password from '../app/views/newAccount/Account_Password';
 import Birth from '../app/views/newAccount/Account_Email';
 import Finish from '../app/views/newAccount/Account_Finish';
 import Home from '../app/views/home/Home';
+import Config from '../app/views/home/Config';
+import Add_Balance from '../app/views/Balance/Add_Balance';
+import Add_Spend from '../app/views/Spend/Add_Spend';
 
 const stack = createNativeStackNavigator();
 
@@ -64,6 +67,21 @@ const AppRoutes = () => {
             <stack.Screen
                 name="Home"
                 component={Home}
+            />
+
+            <stack.Screen
+                name='Config'
+                component={Config}
+            />
+
+            <stack.Screen
+                name='add_balance'
+                component={Add_Balance}
+            />
+
+            <stack.Screen
+                name='add_spend'
+                component={Add_Spend}
             />
 
         </stack.Navigator>
