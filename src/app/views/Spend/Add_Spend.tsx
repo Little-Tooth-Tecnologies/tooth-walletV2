@@ -2,11 +2,12 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import UserNavigation from '../../components/UserNavigation'
+import SimpleNavigation from '../../components/SimpleNavigation'
 
 const Add_Spend = () => {
   return (
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={LocalStyles.container}>
-      <UserNavigation/>
+      <SimpleNavigation title='Despesas' />
       <View style={LocalStyles.navegationContainer}>
 
       </View>

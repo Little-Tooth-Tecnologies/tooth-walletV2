@@ -5,13 +5,13 @@ import store from './src/utils/redux/store';
 import { AuthProvider } from './src/utils/firebase/AuthContext';
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <AuthProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <Routes />
-        </GestureHandlerRootView>
-      </AuthProvider>
-    </Provider>
+  return (    
+      <Provider store={store}>
+        <AuthProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <Routes />
+          </GestureHandlerRootView>
+        </AuthProvider>
+      </Provider>    
   );
 }

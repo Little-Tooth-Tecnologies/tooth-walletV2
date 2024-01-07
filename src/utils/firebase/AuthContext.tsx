@@ -22,7 +22,7 @@ export const AuthProvider = (props) => {
             try {
                 setLoading(true);
                 if (authUser) {
-                    console.log("usuário autenticado: ", authUser);
+                    // console.log("usuário autenticado: ", authUser);
                     setUser(authUser);
                 } else {
                     console.log("usuário não autenticado");

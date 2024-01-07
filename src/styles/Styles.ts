@@ -1,12 +1,10 @@
 export const Styles = {
     cellphoneDialog: {
-        width: 330,
-        height: 724, // Alterar esses valores conforme o tamanho do celular
+        flex: 1,        
         padding: 20,
         borderRadius: 30,
         borderWidth: 3,
-        borderColor: '#D8D8D8',
-        boxSizing: 'border-box',       
+        borderColor: '#D8D8D8',        
         shadowColor: 'rgba(0, 0, 0, 0.55)',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 1,

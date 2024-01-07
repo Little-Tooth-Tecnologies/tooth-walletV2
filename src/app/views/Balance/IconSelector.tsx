@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Icon, IconButton, Menu, PaperProvider } from 'react-native-paper';
 
-const IconSelector = () => {
+interface IconSelector_Props {
+    color: string;
+}
+
+const IconSelector = ({...props} :IconSelector_Props) => {
     const [open, setOpen] = useState(false);
     const [selectedIcon, setSelectedIcon] = useState('credit-card-outline');
 
     const icons = [
-        { label: 'Cartão de Crédito', value: 'credit-card' },
-        { label: 'Cartão de Débito', value: 'credit-card-outline' },
-        { label: 'Dinheiro', value: 'cash' },
+        { label: 'Cartão de Crédito', value: 'credit-card', color: props.color },
+        { label: 'Cartão de Débito', value: 'credit-card-outline' , color: props.color },
+        { label: 'Dinheiro', value: 'cash' , color: props.color},
     ];
 
     const openMenu = () => setOpen(true);
@@ -27,14 +31,14 @@ const IconSelector = () => {
                 <Menu
                     visible={open}
                     onDismiss={closeMenu}
-                    anchor={<IconButton icon={selectedIcon} size={30} onPress={openMenu} />}
+                    anchor={<IconButton icon={selectedIcon} iconColor={props.color} size={30} onPress={openMenu} />}
                     style={LocalStyles.menuStyle}
                 >
                     {icons.map((icon) => (
                         <Menu.Item
                             title={icon.label}
                             key={icon.label}
-                            leadingIcon={(props) => <Icon {...props} source={icon.value} color='purple'/>}
+                            leadingIcon={(props) => <Icon {...props} source={icon.value} color={icon.color}/>}
                             onPress={() => handleIconSelect(icon.value)}
                             style={{gap: 20}}                          
                         />
@@ -49,16 +53,16 @@ const LocalStyles = StyleSheet.create({
     container: {
         flex: 1, 
         justifyContent: 'center',
-        alignItems: 'center',                
+        alignItems: 'center', 
+        zIndex: 999,                    
     },
     menuStyle:{
         position: 'absolute', 
         top: 0, 
-        left: 0, 
-        zIndex: 1000,               
+        left: 0,    
         marginTop: 40,
         width: 200
-    },
+    }
 })
 
 

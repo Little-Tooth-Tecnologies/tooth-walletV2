@@ -4,6 +4,8 @@ import { Styles } from '../../../styles/Styles'
 import React, { useEffect } from 'react'
 import { ActivityIndicator, Snackbar, TextInput } from 'react-native-paper';
 import { Register } from '../../../utils/firebase/register';
+import { getContainerStyles } from '../Init';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface InitProps {
   navigation: any;
@@ -16,20 +18,20 @@ export default function Finish({ navigation }) {
 
   return (
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={styles.container}>
-        <Snackbar visible={show} onDismiss={() => show}>{infoMSG}</Snackbar>
-      <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+        <Snackbar visible={show} onDismiss={() => show} style={{zIndex: 1}}>{infoMSG}</Snackbar>
+      <View style={styles.finishVIEW}>
         <LinearGradient colors={["#A1E3AF", "#65C393", "#29A276"]} style={Styles.cellphoneDialog}>
-          <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-            <Image style={{ height: 230, resizeMode: 'stretch', marginBottom: 20 }} source={require('../../../../assets/png/confirmed_login.png')} />
+          <View style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' , marginBottom: 20}}>
+            <Image style={{ height: 230, resizeMode: 'stretch' }} source={require('../../../../assets/png/confirmed_login.png')} />
             <View style={styles.underline}></View>
           </View>
-          <View style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', width: 200, alignItems: "flex-start", marginLeft: 32 }}>
+          <View style={{justifyContent: 'center', width: 200, alignItems: "center" }}>
             <Text style={styles.bigTXT}>Cadastro Realizado Com{"\n"}<Text style={{ color: "#F7DC6F", fontWeight: '700' }}>SUCESSO</Text></Text>
             <Text style={styles.subTitleTXT}>Estamos Redirecionando Você para página principal</Text>            
           </View>
           <View style={{ justifyContent: 'center', display: 'flex', alignItems: "center" }}>
             <Text style={styles.toothWallet}> Bem Vindo ao {"\n"} Tooth Wallet </Text>
-            <ActivityIndicator animating={true} color='#D9D9D9' size={50} style={{ marginTop: 30 }} />
+            <ActivityIndicator animating={true} color='#D9D9D9' size={50} style={{ marginTop: 10 }} />
           </View>
         </LinearGradient>
       </View>
@@ -40,25 +42,28 @@ export default function Finish({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     backgroundColor: '#B9FFCA',
   },
+  finishVIEW: {
+    ...getContainerStyles() 
+  },
   bigTXT: {
-    fontSize: 24,
+    fontSize: RFValue(22),
     fontWeight: '400',
     fontVariant: ['small-caps'],
     color: "#fff",
   },
   toothWallet: {
-    fontSize: 13,
-    marginTop: 30,
+    fontSize: RFValue(13),
+    marginTop: 20,
     fontWeight: '600',
     fontVariant: ['small-caps'],
     color: "#FFD52D",
   },
   subTitleTXT: {
-    fontSize: 15,
+    fontSize: RFValue(18),
     marginTop: 10,
     fontWeight: '400',
     fontVariant: ['small-caps'],
@@ -74,17 +79,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  beginButton: {
-    backgroundColor: "#FFD52D",
-    borderRadius: 10,
-    padding: 10,
-    alignItems: "center",
-    marginTop: 45,
-    elevation: 10,
-    shadowColor: 'black',
-    shadowOffset: { width: 5, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 5,
-    width: 200,
-  }
 })

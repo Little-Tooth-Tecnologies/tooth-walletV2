@@ -1,68 +1,77 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Image, KeyboardAvoidingView } from 'react-native'
+import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import UserNavigation from '../../components/UserNavigation'
-import {Icon, TextInput } from 'react-native-paper'
+import { Icon, TextInput } from 'react-native-paper'
 import IconSelector from './IconSelector'
 import { TextInputMask } from 'react-native-masked-text'
+import SimpleNavigation from '../../components/SimpleNavigation'
+import ColorPicker from '../../components/ColorPicker'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { ScrollView } from 'react-native'
 
 
 const Add_Balance = () => {
 
 
-  const [moneyValue, setMoneyValue] = React.useState('0');
+  const [moneyValue, setMoneyValue] = useState('0');
+  const [color, setColor] = useState('#000000')
 
-
+  const handleColorChange = (newColor) => {
+    setColor(newColor)
+  }
 
   return (
     <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={LocalStyles.container}>
-      <UserNavigation />
-      <View style={LocalStyles.navegationContainer}>      
-        <View style={{flexDirection:"row", justifyContent: 'space-around'}}>
-          {/* <Image source={require('../../../../assets/png/default_profile.png')} style={{ width: 50, height: 50, }} /> */}
-          <View style={{zIndex: 1000}}>
-            <IconSelector/>                  
+      <ScrollView>
+      <SimpleNavigation title='Registro Financeiro' />
+        <View style={LocalStyles.navegationContainer}>
+          <View>
+            <View style={{ zIndex: 1000, position: 'absolute', marginTop: 30 }}>
+              <IconSelector color={color} />
+            </View>
+            <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end' , marginLeft: 100}}>
+              <TextInput style={{ backgroundColor: '#fff', width: RFValue(220) }} label="Nome" left={<TextInput.Icon icon="format-list-group" />} />
+              <TextInput style={{ backgroundColor: '#fff', width: RFValue(220), marginBottom: 20 }} label="Descrição" left={<TextInput.Icon icon="format-list-group" />} />
+            </View>
           </View>
-          <TextInput style={{backgroundColor: '#fff', width: 250}} label="Nome da Conta" />
-        </View>
 
-        <View style={{flexDirection:"row", justifyContent: 'flex-start'}}>
-          <TextInput style={{backgroundColor: '#fff', width: 300, marginBottom: 20}} label="Descrição da Conta" />
-        </View>
-
-        <View style={{justifyContent:'flex-start', alignContent:'flex-start', alignItems: 'flex-start'}}>
-          <Text> Valor:</Text>
-          <TextInputMask
-          type={'money'}
-          options={{
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            unit: 'R$ ',
-          }}
-          value={moneyValue}
-          onChangeText={(formatted) => setMoneyValue(formatted)}
-          keyboardType='numeric'
-          style={{marginLeft: 5}}
-          />
-        </View>
-
-        <View style={{ flexDirection: 'row', gap: 20, marginTop: 20, justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 20 }}>
-          <TouchableOpacity style={LocalStyles.greenButton}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontWeight: 'bold' }}> Registrar </Text>
-              <Icon source="plus" size={20} color="#000000" />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 30 }}>
+            <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 10 }}>
+              <Text style={{ fontSize: 15, }}> Valor:</Text>
+              <TextInputMask
+                type={'money'}
+                options={{
+                  precision: 2,
+                  separator: ',',
+                  delimiter: '.',
+                  unit: 'R$ ',
+                }}
+                value={moneyValue}
+                onChangeText={(formatted) => setMoneyValue(formatted)}
+                keyboardType='numeric'
+                style={{ marginLeft: 5, fontSize: 15 }}
+              />
             </View>
-          </TouchableOpacity>
+            <ColorPicker onColorChange={handleColorChange} />
+          </View>
 
-          <TouchableOpacity style={LocalStyles.redButton}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontWeight: 'bold' }}> Cancelar </Text>
-              <Icon source="delete" size={20} color="#000000" />
-            </View>
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', gap: 20, marginTop: 20, justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 20 }}>
+            <TouchableOpacity style={LocalStyles.greenButton}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: 'bold' }}> Registrar </Text>
+                <Icon source="plus" size={20} color="#000000" />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={LocalStyles.redButton}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: 'bold' }}> Cancelar </Text>
+                <Icon source="delete" size={20} color="#000000" />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </LinearGradient>
   )
 }
@@ -73,8 +82,8 @@ const LocalStyles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   navegationContainer: {
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: '7%',
+    marginRight: '7%',
     marginTop: 35,
     padding: 15,
     backgroundColor: '#fff',

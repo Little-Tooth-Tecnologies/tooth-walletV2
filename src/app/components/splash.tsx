@@ -13,13 +13,13 @@ export default function Splash(props: any) {
   useEffect(() => {
     const stateChange = async () => {
       setMsgTxt('Carregando...');
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       setMsgTxt('Um Minuto...');
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       setMsgTxt('Quase lá...');
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 500));
       setMsgTxt('Pronto!');
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 500));
       navigation.navigate('Start' as never)
     }
     stateChange();
