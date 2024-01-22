@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 export function LoginUtils({ navigation }) {
     const dispatch = useDispatch();
     const commonStates = useSelector((state: RootState) => state.commonState);
-    const nav = useNavigation();
+    const nav = useNavigation();    
 
     const { Formik } = formik;
 
@@ -34,17 +34,18 @@ export function LoginUtils({ navigation }) {
 
     const [formikValues, setFormikValues] = useState(initialValues);
 
-    const onSubmit = async (userData: UserModel) => {
-
+    const onSubmit = async (userData: UserModel) => {        
         try {
             const { email, password } = userData;
 
             dispatch(setStates({
                 show: true,
                 infoMSG: "Aguarde... estamos verificando seus dados",
+                loading: true,
+                error:false,                
             }))
 
-            const userCredentials = await signInWithEmailAndPassword(auth, email, password);            
+            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
 
             await setPersistence(auth, inMemoryPersistence);
 
@@ -52,42 +53,57 @@ export function LoginUtils({ navigation }) {
                 dispatch(setStates({
                     show: true,
                     infoMSG: "Login realizado com sucesso!",
-                }))  
-                setTimeout(() => {
-                    
-                    dispatch(setStates({
-                        show: false,
-                        infoMSG: ""
-                    })) 
+                    error: false,
+                    success: true 
+                }))
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
-                    navigation.navigate('Home');
-                }, 2500)
+                dispatch(setStates({
+                    show: false,
+                    infoMSG: "",
+                    loading: false,
+                }))                
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
+                navigation.navigate('Home');
             } else {
                 dispatch(setStates({
                     show: true,
                     infoMSG: "Falha ao realizar login!",
-                }))
+                    error: true,
+                    loading: false
+                }))                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                dispatch(setStates({
+                    show: false,
+                    infoMSG: "",
+                    loading: false,
+                    error: false
+                }))                
             }
         }
 
         catch (error) {
+            await new Promise(resolve => setTimeout(resolve, 2000));            
             dispatch(setStates({
                 show: true,
                 infoMSG: `Dados incorretos ou usuário não existe! : ${error}`,
-            }))
-
-            setTimeout(() => {
+                error: true,
+                loading: false
+            }))            
+            await new Promise(resolve => setTimeout(resolve, 2000));            
                 dispatch(setStates({
                     show: false,
                     infoMSG: "",
-                }))
-            }, 10000);
+                    loading: false,
+                    error: false
+                }))            
         }
     }
 
     const doLogout = async () => {
-        try {            
+        try {
             dispatch(setStates({
                 show: true,
                 infoMSG: "Aguarde... estamos deslogando você",
@@ -109,7 +125,7 @@ export function LoginUtils({ navigation }) {
                 infoMSG: "Deslogado com sucesso!",
             }))
 
-            setTimeout(() => {                
+            setTimeout(() => {
                 nav.navigate('Start' as never);
             }, 2500);
 
@@ -118,12 +134,13 @@ export function LoginUtils({ navigation }) {
 
     return {
         Formik,
+        commonStates,
         initialValues,
         formValidation,
         formikValues,
         setFormikValues,
         onSubmit,
-        doLogout
+        doLogout,        
     }
 
 }

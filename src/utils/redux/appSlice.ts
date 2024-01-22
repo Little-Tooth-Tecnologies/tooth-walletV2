@@ -5,7 +5,7 @@ interface appStates {
     infoMSG: string;        
     error: boolean;
     loading: boolean;
-    show: boolean;    
+    show: boolean;        
 }
 
 const initialState: appStates = {

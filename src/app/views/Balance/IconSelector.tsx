@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Icon, IconButton, Menu, PaperProvider } from 'react-native-paper';
 
-interface IconSelector_Props {
+
+export interface IconInt {
+    label: string;
+    iconType: string | any;
     color: string;
+}
+interface IconSelector_Props {
+    color: string;    
+    onIconSelect: (selectedIcon: IconInt) => void;
 }
 
 const IconSelector = ({...props} :IconSelector_Props) => {
     const [open, setOpen] = useState(false);
     const [selectedIcon, setSelectedIcon] = useState('credit-card-outline');
 
-    const icons = [
-        { label: 'Cartão de Crédito', value: 'credit-card', color: props.color },
-        { label: 'Cartão de Débito', value: 'credit-card-outline' , color: props.color },
-        { label: 'Dinheiro', value: 'cash' , color: props.color},
+    const icons: IconInt[] = [
+        { label: 'Cartão de Crédito', iconType: 'credit-card', color: props.color },
+        { label: 'Cartão de Débito', iconType: 'credit-card-outline' , color: props.color },
+        { label: 'Dinheiro', iconType: 'cash' , color: props.color},
     ];
 
     const openMenu = () => setOpen(true);
     const closeMenu = () => setOpen(false);
 
-    const handleIconSelect = (iconName) => {
-        setSelectedIcon(iconName);
+    const handleIconSelect = (icon: IconInt) => {
+        setSelectedIcon(icon.iconType);
+        props.onIconSelect(icon);
         closeMenu();
     }
 
@@ -38,8 +46,8 @@ const IconSelector = ({...props} :IconSelector_Props) => {
                         <Menu.Item
                             title={icon.label}
                             key={icon.label}
-                            leadingIcon={(props) => <Icon {...props} source={icon.value} color={icon.color}/>}
-                            onPress={() => handleIconSelect(icon.value)}
+                            leadingIcon={(props) => <Icon {...props} source={icon.iconType} color={icon.color}/>}
+                            onPress={() => handleIconSelect(icon)}
                             style={{gap: 20}}                          
                         />
                     ))}

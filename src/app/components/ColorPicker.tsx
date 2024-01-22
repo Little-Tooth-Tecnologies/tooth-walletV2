@@ -18,9 +18,9 @@ const ColorPicker = ({onColorChange}) => {
   };
 
   const color = () => {
-    let r = interpolate(255, 0);
+    let r = interpolate(0, 255);
     let g = interpolate(0, 255);
-    let b = interpolate(10, 50);
+    let b = interpolate(0, 255);
     return rgbToHex(r, g, b);
   };
 

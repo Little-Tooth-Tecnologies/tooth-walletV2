@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, Image } from 'react-native'
+import { View, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Avatar, Icon, Snackbar, Switch, Text } from 'react-native-paper'
@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../utils/redux/store'
 import { Divider } from '@rneui/themed';
 import SimpleNavigation from '../../components/SimpleNavigation'
+import { bgPattern, gradientColors, inverseGradient } from '../../../styles/Styles'
+
 
 const Config = () => {
 
@@ -40,55 +42,57 @@ const Config = () => {
     }, [])
 
     return (
-        <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={LocalStyles.container}>            
-            <ScrollView>
-                <SimpleNavigation title='Configurações' />
-                <View style={LocalStyles.VerticalNavigationContainer}>
-                    <View style={{ alignContent: 'center', justifyContent: 'center' }}>
-                        <Text variant='headlineSmall' style={{ color: '#2E7D32' }}>Tooth Wallet</Text>
-                        <Divider width={2} color={'#ADADAD'} />
-                        <Text variant='bodySmall'>Seu aplicativo de gestão financeira</Text>
-                    </View>
-
-
-                    <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-                        <View style={LocalStyles.switchesAlign}>
-                            <Switch value={notificacoes} onValueChange={onToggleNotificacoes} color='#2E7D32' />
-                            <Text>Notificações Push</Text>
+        <LinearGradient colors={inverseGradient} style={LocalStyles.container}>
+            <ImageBackground source={bgPattern} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} imageStyle={{ opacity: 0.2, resizeMode: 'cover' }}>
+                <ScrollView>
+                    <SimpleNavigation title='Configurações' />
+                    <View style={LocalStyles.VerticalNavigationContainer}>
+                        <View style={{ alignContent: 'center', justifyContent: 'center' }}>
+                            <Text variant='headlineSmall' style={{ color: '#2E7D32' }}>Tooth Wallet</Text>
+                            <Divider width={2} color={'#ADADAD'} />
+                            <Text variant='bodySmall'>Seu aplicativo de gestão financeira</Text>
                         </View>
-                        <View style={LocalStyles.switchesAlign}>
-                            <Switch value={modoNoturno} onValueChange={onToggleModoNoturno} color='#2E7D32' />
-                            <Text>Modo Noturno</Text>
+
+
+                        <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                            <View style={LocalStyles.switchesAlign}>
+                                <Switch value={notificacoes} onValueChange={onToggleNotificacoes} color='#2E7D32' />
+                                <Text>Notificações Push</Text>
+                            </View>
+                            <View style={LocalStyles.switchesAlign}>
+                                <Switch value={modoNoturno} onValueChange={onToggleModoNoturno} color='#2E7D32' />
+                                <Text>Modo Noturno</Text>
+                            </View>
+                        </View>
+
+                        <View>
+                            <TouchableOpacity>
+                                <Text style={{ color: '#2E7D32' }}> Termos de Uso do Tooth Wallet</Text>
+                                <Divider width={2} color={'#2E7D32'} />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View>
+                            <TouchableOpacity style={LocalStyles.logoutButton} onPress={doLogout}>
+                                <Text style={{ color: '#fff', fontSize: 15, alignItems: 'center' }}>
+                                    Deslogar <Icon source='exit-to-app' color="#FFFFFF" size={17} />
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View>
+                            <Text> Versão do APP : {appVersion} </Text>
                         </View>
                     </View>
 
                     <View>
                         <TouchableOpacity>
-                            <Text style={{ color: '#2E7D32' }}> Termos de Uso do Tooth Wallet</Text>
-                            <Divider width={2} color={'#2E7D32'} />
+                            <Image style={{ width: 100, height: 100, alignSelf: 'center', marginBottom: '5%' }} source={require('../../../../assets/favicon.png')} />
                         </TouchableOpacity>
                     </View>
 
-                    <View>
-                        <TouchableOpacity style={LocalStyles.logoutButton} onPress={doLogout}>
-                            <Text style={{ color: '#fff', fontSize: 15, alignItems: 'center' }}>
-                                Deslogar <Icon source='exit-to-app' color="#FFFFFF" size={17} />
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View>
-                        <Text> Versão do APP : {appVersion} </Text>
-                    </View>
-                </View>
-
-                <View>
-                    <TouchableOpacity>
-                        <Image style={{ width: 100, height: 100, alignSelf: 'center', marginBottom: '5%' }} source={require('../../../../assets/favicon.png')} />
-                    </TouchableOpacity>
-                </View>
-
-            </ScrollView>
+                </ScrollView>
+            </ImageBackground>
         </LinearGradient>
     )
 }

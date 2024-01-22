@@ -1,51 +1,53 @@
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, ImageBackground } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Styles } from '../../../styles/Styles'
+import { bgPattern, gradientColors } from '../../../styles/Styles'
 import UserNavigation from '../../components/UserNavigation'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 
 export default function Home({ navigation }) {
   return (
-    <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={LocalStyles.container}>
-      <ScrollView>
-        <UserNavigation />
-        <View style={LocalStyles.navegationContainer}>
-          <View style={{flexDirection: 'row', gap: 3 }}>            
-            <Image style={{ height: "100%", resizeMode: 'contain' }} source={require('../../../../assets/png/cellphone.png')} />
-            <View style={{padding: 10}}>
-              <Text style={LocalStyles.dialogTXT}>
-                Parece que você não{"\n"}
-                possui nenhum {"\n"}
-                registro financeiro
-                {"\n"}
-                cadastrado,
-                gostaria{"\n"}de cadastrar?
-              </Text>
-              <TouchableOpacity style={LocalStyles.yellowButton} onPress={() => navigation.navigate("add_balance")}>
-                <Text style={LocalStyles.buttonTXT}>Cadastrar + </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <View style={LocalStyles.navegationContainerBottom}>
-          <View style={{ justifyContent: 'center', alignItems: 'center', alignContent: "center" }}>
-            <Text style={LocalStyles.titleTXT}> Registro de Despesas </Text>
-            <View style={{ justifyContent: 'center', marginTop: 20, marginRight: 50 }}>
-              <Image style={{ height: 150, resizeMode: 'contain' }} source={require('../../../../assets/png/no_items_main.png')} />
-            </View>
-            <View style={{ marginTop: 10, alignContent: 'center', justifyContent: 'center' }}>
-              <Text style={{ color: "#9D9D9D", textTransform: 'uppercase' }}> Vazio por aqui..</Text>
-              <View style={{ marginLeft: 30, }}>
-                <TouchableOpacity style={LocalStyles.yellowButton2} onPress={() => navigation.navigate("add_spend")}>
-                  <Text style={LocalStyles.buttonTXT2}> + </Text>
+    <LinearGradient colors={gradientColors} style={LocalStyles.container}>
+      <ImageBackground source={bgPattern} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} imageStyle={{ opacity: 0.2, resizeMode: 'cover' }}>
+        <ScrollView>
+          <UserNavigation />
+          <View style={LocalStyles.navegationContainer}>
+            <View style={{ flexDirection: 'row', gap: 3 }}>
+              <Image style={{ height: "100%", resizeMode: 'contain' }} source={require('../../../../assets/png/cellphone.png')} />
+              <View style={{ padding: 10 }}>
+                <Text style={LocalStyles.dialogTXT}>
+                  Parece que você não{"\n"}
+                  possui nenhum {"\n"}
+                  registro financeiro
+                  {"\n"}
+                  cadastrado,
+                  gostaria{"\n"}de cadastrar?
+                </Text>
+                <TouchableOpacity style={LocalStyles.yellowButton} onPress={() => navigation.navigate("add_balance")}>
+                  <Text style={LocalStyles.buttonTXT}>Cadastrar + </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
+          <View style={LocalStyles.navegationContainerBottom}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', alignContent: "center" }}>
+              <Text style={LocalStyles.titleTXT}> Registro de Despesas </Text>
+              <View style={{ justifyContent: 'center', marginTop: 20, marginRight: 50 }}>
+                <Image style={{ height: 150, resizeMode: 'contain' }} source={require('../../../../assets/png/no_items_main.png')} />
+              </View>
+              <View style={{ marginTop: 10, alignContent: 'center', justifyContent: 'center' }}>
+                <Text style={{ color: "#9D9D9D", textTransform: 'uppercase' }}> Vazio por aqui..</Text>
+                <View style={{ marginLeft: 30, }}>
+                  <TouchableOpacity style={LocalStyles.yellowButton2} onPress={() => navigation.navigate("add_spend")}>
+                    <Text style={LocalStyles.buttonTXT2}> + </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      </ImageBackground>
     </LinearGradient>
   )
 }
@@ -108,7 +110,7 @@ const LocalStyles = StyleSheet.create({
     color: '#9D9D9D',
     fontSize: 16,
     width: '95%',
-    fontFamily: 'Roboto',    
+    fontFamily: 'Roboto',
     fontVariant: ['small-caps'],
   },
   titleTXT: {

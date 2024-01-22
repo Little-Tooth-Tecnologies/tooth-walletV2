@@ -1,16 +1,19 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ImageBackground } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import UserNavigation from '../../components/UserNavigation'
 import SimpleNavigation from '../../components/SimpleNavigation'
+import { gradientColors, bgPattern } from '../../../styles/Styles'
 
 const Add_Spend = () => {
   return (
-    <LinearGradient colors={["#B9FFCA", "#EAEAEA"]} style={LocalStyles.container}>
+    <LinearGradient colors={gradientColors} style={LocalStyles.container}>
+      <ImageBackground source={bgPattern} style={{ flex: 1 }} imageStyle={{ opacity: 0.2, resizeMode: 'cover' }}>            
       <SimpleNavigation title='Despesas' />
-      <View style={LocalStyles.navegationContainer}>
+        <View style={LocalStyles.navegationContainer}>
 
-      </View>
+        </View>
+      </ImageBackground>
     </LinearGradient>
   )
 }
